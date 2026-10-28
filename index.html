@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thu Phương</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Be+Vietnam+Pro:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: một trang dọc như một timeline dựng phim; mỗi phần là một "clip" trên track. Giao diện đen + xanh lá mạ theo ý chị. */
+:root {
+  --bg: #0d0f0b;
+  --surface: #161a12;
+  --line: #2a3122;
+  --fg: #eef2e6;
+  --muted: #9aa58a;
+  --lime: #b6f23a;
+  --lemon: #f2e63a;
+  --on-lime: #0d0f0b;
+  --display: "Bricolage Grotesque", "Be Vietnam Pro", system-ui, sans-serif;
+  --body: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.65;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 920px; margin: 0 auto; padding-block: 40px 64px; display: grid; gap: 56px; }
+
+/* Thanh trên cùng như thanh thời gian của phần mềm dựng */
+.ruler {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  font-family: var(--mono); font-size: 12px; color: var(--muted);
+  border-bottom: 1px solid var(--line); padding-bottom: 10px;
+  letter-spacing: 0.04em;
+}
+.rec { display: inline-flex; align-items: center; gap: 8px; color: var(--lime); }
+.rec::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--lime); animation: blink 1.6s ease-in-out infinite; }
+@keyframes blink { 50% { opacity: 0.25; } }
+
+/* Hero */
+.hero { display: grid; gap: 18px; }
+.eyebrow { font-family: var(--mono); font-size: 13px; color: var(--lime); letter-spacing: 0.08em; text-transform: uppercase; }
+h1 {
+  font-family: var(--display); font-weight: 800;
+  font-size: clamp(44px, 10vw, 96px); line-height: 0.95; letter-spacing: -0.03em;
+  margin: 0; text-wrap: balance;
+}
+h1 .hl { color: var(--lime); }
+.lead { font-size: clamp(17px, 2.4vw, 20px); color: var(--fg); max-width: 34em; margin: 0; }
+.lead b { color: var(--lemon); font-weight: 600; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 18px; border-radius: 999px; font-weight: 600; font-size: 15px;
+  text-decoration: none; border: 1.5px solid var(--lime); color: var(--lime);
+  transition: background 0.15s, color 0.15s;
+}
+.btn.primary { background: var(--lime); color: var(--on-lime); }
+.btn:hover, .btn:focus-visible { background: var(--lemon); border-color: var(--lemon); color: var(--on-lime); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--lemon); outline-offset: 3px; }
+
+/* Section heads */
+h2 {
+  font-family: var(--display); font-weight: 800; font-size: clamp(28px, 5vw, 40px);
+  letter-spacing: -0.02em; line-height: 1.05; margin: 0 0 20px; text-wrap: balance;
+}
+.tag { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.06em; display: block; margin-bottom: 8px; }
+
+/* Timeline các công việc: mỗi track một việc */
+.tracks { display: grid; gap: 10px; }
+.track {
+  display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 14px; align-items: stretch;
+}
+.track .lane {
+  font-family: var(--mono); font-size: 12px; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 6px;
+  display: grid; place-items: center;
+}
+.clip {
+  min-width: 0;
+  background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--lime);
+  border-radius: 6px; padding: 16px 18px;
+  display: grid; gap: 4px;
+}
+.track:nth-child(2) .clip { border-left-color: var(--lemon); }
+.clip h3 { margin: 0; font-family: var(--display); font-weight: 800; font-size: 22px; letter-spacing: -0.01em; }
+.clip p { margin: 0; color: var(--muted); }
+.clip .tc { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+/* Giới thiệu */
+.about { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.about p { margin: 0 0 12px; max-width: 36em; }
+.facts { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.facts div { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.facts dt { color: var(--muted); font-size: 14px; }
+.facts dd { margin: 0; font-weight: 600; text-align: right; }
+
+/* Liên hệ */
+.contact { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  padding: 18px; display: grid; gap: 10px; align-content: start; min-width: 0;
+}
+.card .k { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+.card .v { font-size: 18px; font-weight: 600; overflow-wrap: anywhere; user-select: all; }
+.card a.v { color: var(--lime); text-decoration: none; }
+.card a.v:hover { color: var(--lemon); text-decoration: underline; }
+.copy {
+  justify-self: start; font: inherit; font-size: 14px; font-weight: 600;
+  background: transparent; color: var(--lime); border: 1.5px solid var(--lime);
+  border-radius: 999px; padding: 6px 14px; cursor: pointer;
+}
+.copy:hover { background: var(--lime); color: var(--on-lime); }
+
+footer { font-family: var(--mono); font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 720px) {
+  .about { grid-template-columns: minmax(0, 1fr); }
+  .contact { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { .rec::before { animation: none; } .btn { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="ruler" aria-hidden="true">
+    <span class="rec">REC</span>
+    <span>00:00:00:00 — 00:42:00:00</span>
+    <span>16:9 · 30fps</span>
+  </div>
+
+  <header class="hero">
+    <span class="eyebrow">YouTuber · Dựng video · Vibe coding</span>
+    <h1>Nguyễn Thị<br><span class="hl">Thu Phương</span></h1>
+    <p class="lead">Mình làm kênh YouTube, tự dựng video và đang học <b>vibe coding</b>: tự làm website, ứng dụng bằng AI chỉ bằng cách nói ra điều mình muốn.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://www.facebook.com/thu.phuong.107745/" target="_blank" rel="noopener">Nhắn qua Facebook</a>
+      <a class="btn" href="#lien-he">Xem liên hệ</a>
+    </div>
+  </header>
+
+  <section aria-labelledby="viec">
+    <span class="tag">TIMELINE</span>
+    <h2 id="viec">Mình đang làm gì</h2>
+    <div class="tracks">
+      <div class="track">
+        <span class="lane">V1</span>
+        <div class="clip">
+          <span class="tc">Track 1</span>
+          <h3>Làm YouTube</h3>
+          <p>Lên ý tưởng, viết kịch bản và vận hành các kênh YouTube của mình.</p>
+        </div>
+      </div>
+      <div class="track">
+        <span class="lane">V2</span>
+        <div class="clip">
+          <span class="tc">Track 2</span>
+          <h3>Edit video</h3>
+          <p>Cắt ghép, chỉnh màu, thêm chữ và nhạc để video gọn, cuốn và đúng nhịp.</p>
+        </div>
+      </div>
+      <div class="track">
+        <span class="lane">A1</span>
+        <div class="clip">
+          <span class="tc">Track 3</span>
+          <h3>Vibe coding</h3>
+          <p>Dùng AI để tự làm website, công cụ nhỏ phục vụ công việc. Trang bạn đang xem cũng được làm theo cách này.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" aria-labelledby="gt">
+    <div>
+      <span class="tag">GIỚI THIỆU</span>
+      <h2 id="gt">Bắt đầu ở tuổi 42, và vẫn đang học</h2>
+      <p>Mình tin là không có tuổi nào quá muộn để học cái mới. Từ làm video, mình chuyển sang tự làm công cụ cho chính mình với sự trợ giúp của AI.</p>
+      <p>Nếu bạn cần dựng video, muốn trao đổi về làm YouTube hay cùng học vibe coding, cứ nhắn cho mình.</p>
+    </div>
+    <dl class="facts">
+      <div><dt>Tên</dt><dd>Thu Phương</dd></div>
+      <div><dt>Tuổi</dt><dd>42</dd></div>
+      <div><dt>Công việc</dt><dd>YouTube, dựng video</dd></div>
+      <div><dt>Đang học</dt><dd>Vibe coding</dd></div>
+    </dl>
+  </section>
+
+  <section id="lien-he" aria-labelledby="lh">
+    <span class="tag">LIÊN HỆ</span>
+    <h2 id="lh">Kết nối với mình</h2>
+    <div class="contact">
+      <div class="card">
+        <span class="k">Zalo</span>
+        <span class="v" id="zalo">0904 733 378</span>
+        <button class="copy" type="button" id="copy-zalo" data-copy="0904733378">Sao chép số</button>
+      </div>
+      <div class="card">
+        <span class="k">Facebook</span>
+        <a class="v" href="https://www.facebook.com/thu.phuong.107745/" target="_blank" rel="noopener">thu.phuong.107745</a>
+      </div>
+      <div class="card">
+        <span class="k">GitHub</span>
+        <a class="v" href="https://github.com/phuonghoi300410-ctrl" target="_blank" rel="noopener">phuonghoi300410-ctrl</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Nguyễn Thị Thu Phương</span>
+    <span>Làm bằng vibe coding</span>
+  </footer>
+</div>
+
+<script>
+document.getElementById('copy-zalo').addEventListener('click', function (e) {
+  var btn = e.currentTarget, num = btn.getAttribute('data-copy');
+  function done(msg) { btn.textContent = msg; setTimeout(function () { btn.textContent = 'Sao chép số'; }, 1800); }
+  function fallback() {
+    var r = document.createRange(); r.selectNodeContents(document.getElementById('zalo'));
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    done('Đã chọn số, bấm Ctrl+C');
+  }
+  try {
+    navigator.clipboard.writeText(num).then(function () { done('Đã sao chép'); }, fallback);
+  } catch (err) { fallback(); }
+});
+</script>
+</body>
+</html>
